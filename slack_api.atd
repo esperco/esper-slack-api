@@ -1,0 +1,43 @@
+type slack_channel = string wrap <ocaml module="Slack_api_channel">
+type slack_teamid = string wrap <ocaml module="Slack_api_teamid">
+type slack_userid = string wrap <ocaml module="Slack_api_userid">
+type slack_username = string wrap <ocaml module="Slack_api_username">
+
+type auth = {
+  access_token: string;
+  scope: string;
+  ?team_id: slack_teamid option;
+  ?team_name: string option;
+  ?bot: bot option;
+}
+
+type bot = {
+  bot_user_id: string;
+  bot_access_token: string;
+}
+
+type user_identity_response = {
+  user: user;
+  team: team;
+}
+
+type user = {
+  name: slack_username;
+  id:   slack_userid;
+} <ocaml field_prefix="slackuser_">
+
+type team = {
+  id: slack_teamid;
+} <ocaml field_prefix="slackteam_">
+
+type channel_response = {
+  channel: channel;
+}
+
+type channel = {
+  id: slack_channel;
+} <ocaml field_prefix="slackchannel_">
+
+type response = {
+  ok: bool;
+}

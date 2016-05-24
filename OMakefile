@@ -1,0 +1,21 @@
+OCAML_LIBS = $(OCAML_LIBS_slack-api)
+
+FILES[] =
+  slack_api_teamid
+  slack_api_userid
+  slack_api_username
+  slack_api_channel
+  slack_api_t
+  slack_api_j
+  slack_api_v
+  slack_api
+
+Atdgen(slack_api, -j-std)
+OCamlLibrary(slack-api, $(FILES))
+Meta(slack-api)
+
+.DEFAULT: META slack-api.cma slack-api.cmxa
+
+.PHONY: clean
+clean:
+  rm -f *.o *.a *.cm* *~ *.annot *.run *.opt META $(ATDGEN_OUTFILES)
