@@ -38,6 +38,24 @@ type channel = {
   id: slack_channel;
 } <ocaml field_prefix="slackchannel_">
 
+(*
+   Slack doesn't use HTTP status code to indicate the type of the response.
+   We have to figure it out by parsing the response twice.
+   This is a supertype of all responses.
+*)
 type response = {
   ok: bool;
+}
+
+type error_response = {
+  ok: bool; (* false *)
+  error: string; (* error code *)
+}
+
+type rtm_start_resp = {
+  (* 'ok' field omitted *)
+  url: string;
+    (* Websocket URL *)
+
+  (* a bunch of field omitted *)
 }

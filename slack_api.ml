@@ -26,6 +26,22 @@
 *)
 
 open Lwt
+open Slack_api_t
+
+let is_ok_response s =
+  try (Slack_api_j.response_of_string s).ok
+  with e ->
+    Log.logf `Error "Malformed Slack response: %s\n%s"
+      s (Log.string_of_exn e);
+    false
+
+let handle_error error_code =
+  failwith ("Slack error " ^ error_code)
+
+let parse_response string_of_x s =
+  match is_ok_response s with
+  | true -> string_of_x s
+  | false -> handle_error (Slack_api_j.error_response_of_string s).error
 
 let opt k f = function
   | Some v -> [k, f v]
@@ -43,15 +59,14 @@ let users_identity {Slack_api_t.access_token} =
     (Uri.of_string "https://slack.com/api/users.identity")
     ["token", access_token]
   >>= fun (_status, _headers, body) ->
-  return (Slack_api_j.user_identity_response_of_string body)
+  return (parse_response Slack_api_j.user_identity_response_of_string body)
 
 let auth_test {Slack_api_t.access_token} =
   Util_http_client.post_form
     (Uri.of_string "https://slack.com/api/auth.test")
     ["token", access_token]
   >>= fun (_status, _headers, body) ->
-  let {Slack_api_t.ok} = Slack_api_j.response_of_string body in
-  return ok
+  return (is_ok_response body)
 
 let oauth_access ~client_id ~client_secret ~code ~redirect_uri =
   Util_http_client.post_form
@@ -61,7 +76,7 @@ let oauth_access ~client_id ~client_secret ~code ~redirect_uri =
      "code",          code;
      "redirect_uri",  redirect_uri]
   >>= fun (_status, _headers, body) ->
-  return (Slack_api_j.auth_of_string body)
+  return (parse_response Slack_api_j.auth_of_string body)
 
 let im_open token slack_userid =
   Util_http_client.post_form
@@ -70,7 +85,8 @@ let im_open token slack_userid =
      "user",  Slack_api_userid.to_string slack_userid]
   >>= fun (_status, _headers, body) ->
   let open Slack_api_t in
-  return (Slack_api_j.channel_response_of_string body).channel.slackchannel_id
+  let resp = parse_response Slack_api_j.channel_response_of_string body in
+  return resp.channel.slackchannel_id
 
 let chat_post_message token channel text =
   Util_http_client.post_form
@@ -92,3 +108,5 @@ let rtm_start ?simple_latest ?no_unreads ?mpim_aware token =
        opt "no_unreads"    string_of_bool no_unreads;
        opt "mpim_aware"    string_of_bool mpim_aware;
      ])
+  >>= fun (_status, _headers, body) ->
+  return (parse_response Slack_api_j.rtm_start_resp_of_string body)
