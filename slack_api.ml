@@ -98,7 +98,6 @@ let chat_post_message token channel text =
 let button ~text ~url () =
   "<" ^ url ^ "|" ^ text ^ ">"
 
-
 let rtm_start ?simple_latest ?no_unreads ?mpim_aware token =
   Util_http_client.post_form
     (Uri.of_string "https://slack.com/api/rtm.start")
