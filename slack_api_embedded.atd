@@ -25,5 +25,5 @@ type item = [
 type message = {
   type_ <json name="type">: string;
   channel: slack_channel;
-  slack_ts: slack_ts;
+  ts: slack_ts;
 }
