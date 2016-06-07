@@ -7,6 +7,10 @@ FILES[] =
   slack_api_channel
   slack_api_scope
   slack_api_ts
+  slack_api_embedded_t
+  slack_api_embedded_j
+  slack_api_embedded_v
+  slack_api_embedded
   slack_api_t
   slack_api_j
   slack_api_v

@@ -2,6 +2,7 @@ type slack_channel = string wrap <ocaml module="Slack_api_channel">
 type slack_teamid = string wrap <ocaml module="Slack_api_teamid">
 type slack_userid = string wrap <ocaml module="Slack_api_userid">
 type slack_username = string wrap <ocaml module="Slack_api_username">
+type slack_ts = string wrap <ocaml module="Slack_api_ts">
 
 type auth = {
   access_token: string;
@@ -57,5 +58,40 @@ type rtm_start_resp = {
   url: string;
     (* Websocket URL *)
 
-  (* a bunch of field omitted *)
+  (* a bunch of fields omitted *)
+}
+
+(*
+   Type of the events received from the Slack RTM API.
+*)
+
+type event = [
+  | Hello
+  | Message of message
+  | Reaction_added of reaction_added
+  | Reaction_removed of reaction_removed
+  | Other
+]
+
+type message = {
+  channel: slack_channel; (* C2147483705 *)
+  user: slack_userid; (* U2147483697 *)
+  text: string;
+  ts: slack_ts; (* 1355517523.000005 *)
+}
+
+type reaction_added = {
+  user: slack_userid;
+  reaction: thumbsup;
+  item_user: slack_userid;
+  item: embedded_item;
+  event_ts: slack_ts;
+}
+
+type reaction_removed = {
+  user: slack_userid;
+  reaction: thumbsup;
+  item_user: slack_userid;
+  item: embedded_item;
+  event_ts: slack_ts;
 }

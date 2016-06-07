@@ -1,0 +1,28 @@
+(*
+   Slack embedded items
+
+   Special 2-pass parsing is needed because the type is only indicated
+   by the `type` subfield.
+
+   See https://api.slack.com/events/reaction_added
+*)
+
+type slack_channel = string wrap <ocaml module="Slack_api_channel">
+type slack_teamid = string wrap <ocaml module="Slack_api_teamid">
+type slack_userid = string wrap <ocaml module="Slack_api_userid">
+type slack_username = string wrap <ocaml module="Slack_api_username">
+type slack_ts = string wrap <ocaml module="Slack_api_ts">
+
+type type_only = {
+  type_ <json name="type">: string;
+}
+
+type embedded_item = [
+  | Message of embedded_message
+  | Other
+]
+
+type embedded_message {
+  channel: slack_channel;
+  slack_ts: slack_ts;
+}
