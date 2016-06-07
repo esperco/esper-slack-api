@@ -4,6 +4,8 @@ type slack_userid = string wrap <ocaml module="Slack_api_userid">
 type slack_username = string wrap <ocaml module="Slack_api_username">
 type slack_ts = string wrap <ocaml module="Slack_api_ts">
 
+type embedded_item <ocaml module="Slack_api_embedded" t="t"> = abstract
+
 type auth = {
   access_token: string;
   scope: string;
@@ -70,27 +72,37 @@ type event = [
   | Message of message
   | Reaction_added of reaction_added
   | Reaction_removed of reaction_removed
-  | Other
+  | Other of string (* original input data, presumably json *)
 ]
 
+type type_only = {
+  type_ <json name="type">: string;
+}
+
 type message = {
+  type_ <json name="type">: string;
   channel: slack_channel; (* C2147483705 *)
   user: slack_userid; (* U2147483697 *)
   text: string;
   ts: slack_ts; (* 1355517523.000005 *)
 }
 
+type reaction_name = string
+  (* an undocumented enum that contains elements such as "thumbsup" *)
+
 type reaction_added = {
+  type_ <json name="type">: string;
   user: slack_userid;
-  reaction: thumbsup;
+  reaction: reaction_name;
   item_user: slack_userid;
   item: embedded_item;
   event_ts: slack_ts;
 }
 
 type reaction_removed = {
+  type_ <json name="type">: string;
   user: slack_userid;
-  reaction: thumbsup;
+  reaction: reaction_name;
   item_user: slack_userid;
   item: embedded_item;
   event_ts: slack_ts;

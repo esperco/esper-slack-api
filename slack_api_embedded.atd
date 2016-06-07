@@ -17,12 +17,13 @@ type type_only = {
   type_ <json name="type">: string;
 }
 
-type embedded_item = [
-  | Message of embedded_message
-  | Other
+type item = [
+  | Message of message
+  | Other of string (* json *)
 ]
 
-type embedded_message {
+type message = {
+  type_ <json name="type">: string;
   channel: slack_channel;
   slack_ts: slack_ts;
 }

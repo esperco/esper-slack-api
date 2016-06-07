@@ -16,7 +16,7 @@ FILES[] =
   slack_api_v
   slack_api
 
-Atdgen(slack_api, -j-std)
+Atdgen(slack_api slack_api_embedded, -j-std)
 OCamlLibrary(slack-api, $(FILES))
 Meta(slack-api)
 

@@ -109,3 +109,26 @@ let rtm_start ?simple_latest ?no_unreads ?mpim_aware token =
      ])
   >>= fun (_status, _headers, body) ->
   return (parse_response Slack_api_j.rtm_start_resp_of_string body)
+
+let get_event_type json_string =
+  try
+    let x = Slack_api_j.type_only_of_string json_string in
+    Some x.Slack_api_j.type_
+  with _ ->
+    None
+
+let event_of_string s : Slack_api_t.event =
+  match get_event_type s with
+  | None ->
+      failwith ("Slack event missing `type` field: " ^ s)
+  | Some type_ ->
+      match type_ with
+      | "hello" -> `Hello
+      | "message" ->
+          `Message (Slack_api_j.message_of_string s)
+      | "reaction_added" ->
+          `Reaction_added (Slack_api_j.reaction_added_of_string s)
+      | "reaction_removed" ->
+          `Reaction_removed (Slack_api_j.reaction_removed_of_string s)
+      | _ ->
+          `Other s
