@@ -61,7 +61,7 @@ let users_identity {Slack_api_t.access_token} =
   >>= fun (_status, _headers, body) ->
   return (parse_response Slack_api_j.user_identity_response_of_string body)
 
-let auth_test {Slack_api_t.access_token} =
+let auth_test access_token =
   Util_http_client.post_form
     (Uri.of_string "https://slack.com/api/auth.test")
     ["token", access_token]
