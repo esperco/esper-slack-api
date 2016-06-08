@@ -41,6 +41,13 @@ type channel = {
   id: slack_channel;
 } <ocaml field_prefix="slackchannel_">
 
+type message_response = {
+  ok: bool;
+  channel: slack_channel;
+  ts: slack_ts;
+(* message object ignored for now *)
+} <ocaml field_prefix="msg_">
+
 (*
    Slack doesn't use HTTP status code to indicate the type of the response.
    We have to figure it out by parsing the response twice.
