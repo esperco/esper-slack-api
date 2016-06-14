@@ -100,6 +100,26 @@ let chat_post_message token channel text =
 let button ~text ~url () =
   "<" ^ url ^ "|" ^ text ^ ">"
 
+let reactions_add token channel ts reaction =
+  Util_http_client.post_form
+    (Uri.of_string "https://slack.com/api/reactions.add")
+    ["token",     token;
+     "channel",   Slack_api_channel.to_string channel;
+     "timestamp", Slack_api_ts.to_string ts;
+     "name",      reaction]
+  >>= fun _resp ->
+  return_unit
+
+let reactions_remove token channel ts reaction =
+  Util_http_client.post_form
+    (Uri.of_string "https://slack.com/api/reactions.remove")
+    ["token",     token;
+     "channel",   Slack_api_channel.to_string channel;
+     "timestamp", Slack_api_ts.to_string ts;
+     "name",      reaction]
+  >>= fun _resp ->
+  return_unit
+
 let rtm_start ?simple_latest ?no_unreads ?mpim_aware token =
   Util_http_client.post_form
     (Uri.of_string "https://slack.com/api/rtm.start")

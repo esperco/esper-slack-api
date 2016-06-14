@@ -101,7 +101,7 @@ type reaction_added = {
   type_ <json name="type">: string;
   user: slack_userid;
   reaction: reaction_name;
-  item_user: slack_userid;
+  ?item_user: slack_userid option;
   item: embedded_item;
   event_ts: slack_ts;
 }
@@ -110,7 +110,7 @@ type reaction_removed = {
   type_ <json name="type">: string;
   user: slack_userid;
   reaction: reaction_name;
-  item_user: slack_userid;
+  ?item_user: slack_userid option;
   item: embedded_item;
   event_ts: slack_ts;
 }
