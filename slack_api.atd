@@ -89,7 +89,7 @@ type type_only = {
 type message = {
   type_ <json name="type">: string;
   channel: slack_channel; (* C2147483705 *)
-  user: slack_userid; (* U2147483697 *)
+  ?user: slack_userid option; (* U2147483697, None if message is by a bot *)
   text: string;
   ts: slack_ts; (* 1355517523.000005 *)
 }
@@ -101,7 +101,7 @@ type reaction_added = {
   type_ <json name="type">: string;
   user: slack_userid;
   reaction: reaction_name;
-  ?item_user: slack_userid option;
+  ?item_user: slack_userid option; (* None if the commented item is by a bot *)
   item: embedded_item;
   event_ts: slack_ts;
 }
@@ -110,7 +110,7 @@ type reaction_removed = {
   type_ <json name="type">: string;
   user: slack_userid;
   reaction: reaction_name;
-  ?item_user: slack_userid option;
+  ?item_user: slack_userid option; (* None if the commented item is by a bot *)
   item: embedded_item;
   event_ts: slack_ts;
 }
