@@ -5,7 +5,9 @@ FILES[] =
   slack_api_userid
   slack_api_username
   slack_api_channel
+  slack_api_color
   slack_api_scope
+  slack_api_style
   slack_api_ts
   slack_api_embedded_t
   slack_api_embedded_j

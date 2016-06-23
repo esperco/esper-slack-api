@@ -1,4 +1,6 @@
 type slack_channel = string wrap <ocaml module="Slack_api_channel">
+type slack_color = string wrap <ocaml module="Slack_api_color">
+type slack_style = string wrap <ocaml module="Slack_api_style">
 type slack_teamid = string wrap <ocaml module="Slack_api_teamid">
 type slack_userid = string wrap <ocaml module="Slack_api_userid">
 type slack_username = string wrap <ocaml module="Slack_api_username">
@@ -47,6 +49,70 @@ type message_response = {
   ts: slack_ts;
 (* message object ignored for now *)
 } <ocaml field_prefix="msg_">
+
+type attachments = attachment list
+
+type attachment = {
+  ?color: slack_color option;
+  ~attachment_type: string;
+  ~fallback: string;
+  ?pretext: string option;
+  ?author_name: string option;
+  ?author_link: string option;
+  ?author_icon: string option;
+  ?title: string option;
+  ?title_link: string option;
+  ?text: string option;
+  ~fields: attachment_field list;
+  ?image_url: string option;
+  ?thumb_url: string option;
+  ?footer: string option;
+  ?footer_icon: string option;
+  ?ts: float <json repr="int"> option;
+
+  ~actions: attachment_action list;
+  ?callback_id: string option; (*required for actions*)
+} <ocaml field_prefix="attach_">
+
+type attachment_field = {
+  ~title: string;
+  ~value: string;
+  ~short: bool;
+} <ocaml field_prefix="field_">
+
+type attachment_action = {
+  name: string;
+  ?value: string option;
+  ~text: string;
+  ?style: slack_style option;
+  type_ <json name="type">: string;
+  ?confirm: action_confirm option;
+} <ocaml field_prefix="action_">
+
+type action_confirm = {
+  ~title: string;
+  ~text: string;
+  ?ok_text: string option;
+  ?dismiss_text: string option;
+} <ocaml field_prefix="confirm_">
+
+type action_in_response = {
+  name: string;
+  ?value: string option;
+} <ocaml field_prefix="act_">
+
+type message_action_response = {
+  actions: action_in_response list;
+  callback_id: string;
+  token: string;
+  original_message: simple_message;
+  (* more fields... *)
+} <ocaml field_prefix="act_">
+
+type simple_message = {
+  ?text: string option;
+  ~attachments: attachments;
+} <ocaml field_prefix="m_">
 
 (*
    Slack doesn't use HTTP status code to indicate the type of the response.

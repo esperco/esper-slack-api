@@ -27,6 +27,7 @@
 
 open Lwt
 open Slack_api_t
+open Util_url.Op
 
 let is_ok_response s =
   try (Slack_api_j.response_of_string s).ok
@@ -88,12 +89,17 @@ let im_open token slack_userid =
   let resp = parse_response Slack_api_j.channel_response_of_string body in
   return resp.channel.slackchannel_id
 
-let chat_post_message token channel text =
-  Util_http_client.post_form
+let chat_post_message token ?attachments ?replace_original ?delete_original
+                      channel text =
+  let string_of_attachments x = Slack_api_j.string_of_attachments x in
+  Util_http_client.post_form'
     (Uri.of_string "https://slack.com/api/chat.postMessage")
-    ["token",   token;
-     "channel", Slack_api_channel.to_string channel;
-     "text",    text]
+    (("attachments",      string_of_attachments, attachments) @^@
+     ("replace_original", string_of_bool,        replace_original) @^@
+     ("delete_original",  string_of_bool,        delete_original) @^@
+     ["token",   [token];
+      "channel", [Slack_api_channel.to_string channel];
+      "text",    [text]])
   >>= fun (_status, _headers, body) ->
   return (Slack_api_j.message_response_of_string body)
 
