@@ -1,3 +1,16 @@
+(* JSON types used in Slack API
+
+   As Slack does not provide formal definitions for their JSON objects,
+   most of the information here are gathered from the informal documentation
+   at https://api.slack.com and verified through observation.
+
+   The sets of fields are often incomplete, as fields are added only as needed,
+   to avoid over- and wrong specification.
+
+   When adding a new field, use '?' or '~' unless the field is explicitly
+   documented as "required" by Slack.
+*)
+
 type slack_channel = string wrap <ocaml module="Slack_api_channel">
 type slack_color = string wrap <ocaml module="Slack_api_color">
 type slack_style = string wrap <ocaml module="Slack_api_style">
