@@ -167,10 +167,14 @@ type type_only = {
 
 type message = {
   type_ <json name="type">: string;
+  ts: slack_ts; (* 1355517523.000005 *)
   ?channel: slack_channel option; (* C2147483705 *)
   ?user: slack_userid option; (* U2147483697, None if message is by a bot *)
-  text: string;
-  ts: slack_ts; (* 1355517523.000005 *)
+
+  (* `text` field is present when the message was entered by the user.
+      `message` is present when the message was updated by the bot. *)
+  ?text: string option;
+  ?message: embedded_item option;
 }
 
 type reaction_name = string
