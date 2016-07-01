@@ -125,6 +125,7 @@ type message_action_response = {
 type simple_message = {
   ?text: string option;
   ~attachments: attachments;
+  ?replace_original: bool option;
 } <ocaml field_prefix="m_">
 
 (*

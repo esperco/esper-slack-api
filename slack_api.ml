@@ -89,14 +89,11 @@ let im_open token slack_userid =
   let resp = parse_response Slack_api_j.channel_response_of_string body in
   return resp.channel.slackchannel_id
 
-let chat_post_message token ?attachments ?replace_original ?delete_original
-                      channel text =
+let chat_post_message token ?attachments channel text =
   let string_of_attachments x = Slack_api_j.string_of_attachments x in
   Util_http_client.post_form'
     (Uri.of_string "https://slack.com/api/chat.postMessage")
-    (("attachments",      string_of_attachments, attachments) @^@
-     ("replace_original", string_of_bool,        replace_original) @^@
-     ("delete_original",  string_of_bool,        delete_original) @^@
+    (("attachments", string_of_attachments, attachments) @^@
      ["token",   [token];
       "channel", [Slack_api_channel.to_string channel];
       "text",    [text]])
