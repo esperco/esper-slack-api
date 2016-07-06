@@ -155,5 +155,7 @@ let event_of_string s : Slack_api_t.event =
           `Reaction_added (Slack_api_j.reaction_added_of_string s)
       | "reaction_removed" ->
           `Reaction_removed (Slack_api_j.reaction_removed_of_string s)
+      | "user_typing" ->
+          `User_typing (Slack_api_j.user_typing_of_string s)
       | _ ->
           `Other s

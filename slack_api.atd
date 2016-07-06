@@ -159,6 +159,7 @@ type event = [
   | Message of message
   | Reaction_added of reaction_added
   | Reaction_removed of reaction_removed
+  | User_typing of user_typing
   | Other of string (* original input data, presumably json *)
 ]
 
@@ -176,6 +177,12 @@ type message = {
       `message` is present when the message was updated by the bot. *)
   ?text: string option;
   ?message: embedded_item option;
+}
+
+type user_typing = {
+  type_ <json name="type">: string;
+  channel: slack_channel;
+  user: slack_userid;
 }
 
 type reaction_name = string
