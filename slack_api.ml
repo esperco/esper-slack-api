@@ -98,7 +98,7 @@ let chat_post_message token ?attachments channel text =
       "channel", [Slack_api_channel.to_string channel];
       "text",    [text]])
   >>= fun (_status, _headers, body) ->
-  return (Slack_api_j.message_response_of_string body)
+  return (Slack_api_j.response_of_string body)
 
 let button ~text ~url () =
   "<" ^ url ^ "|" ^ text ^ ">"
