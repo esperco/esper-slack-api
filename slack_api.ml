@@ -48,12 +48,13 @@ let opt k f = function
   | Some v -> [k, f v]
   | None -> []
 
-let app_auth_url ?state ~client_id ~scope ~redirect_uri () =
+let app_auth_url ?state ?team ~client_id ~scope ~redirect_uri () =
   Uri.with_query' (Uri.of_string "https://slack.com/oauth/authorize")
     (["client_id",    client_id;
       "scope",        scope;
       "redirect_uri", redirect_uri]
-     @ opt "state" (fun s -> s) state)
+     @ opt "state" (fun s -> s) state
+     @ opt "team" Slack_api_teamid.to_string team)
 
 let users_identity {Slack_api_t.access_token} =
   Util_http_client.post_form
