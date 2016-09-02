@@ -112,7 +112,7 @@ let reactions_add token channel ts reaction =
      "timestamp", Slack_api_ts.to_string ts;
      "name",      reaction]
   >>= fun _resp ->
-  return_unit
+  return ()
 
 let reactions_remove token channel ts reaction =
   Util_http_client.post_form
@@ -122,7 +122,7 @@ let reactions_remove token channel ts reaction =
      "timestamp", Slack_api_ts.to_string ts;
      "name",      reaction]
   >>= fun _resp ->
-  return_unit
+  return ()
 
 let rtm_start ?simple_latest ?no_unreads ?mpim_aware token =
   Util_http_client.post_form
