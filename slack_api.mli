@@ -3,26 +3,7 @@
 
    https://api.slack.com/
 
-   Publishing a Slack app with a bot works as follows:
-
-   - create a Slack team for development purposes
-   - create a Slack user in that team that will own the app
-   - create a Slack app interactively, while logged in as this user
-   - define a bot user for the app, which is a special kind of user
-     that will be created into the app user's team when the app is
-     installed. If the chosen name for the bot is already taken
-     in the receiving team, then Slack modifies it slightly.
-
-   For a user to use the app, the following must typically be done:
-
-   1. "Add to Slack": enables the app and creates the bot user, which
-      gets a team-wide access token and can do different things depending
-      on the requested permissions. Not all team members may install apps,
-      depending on their team's configuration.
-
-   2. "Sign In With Slack": this creates or validates a mapping between a user
-      of your product and a Slack user in a Slack team. It is only required
-      if users need to access their app data outside of Slack.
+   For Esper, see setup instructions in `wolverine/slack/README.md`
 *)
 
 type 'a response = [ `OK of 'a | `Error of string ]
