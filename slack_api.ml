@@ -82,14 +82,19 @@ let im_open token slack_userid =
   | `Error err ->
       return (`Error err)
 
-let chat_post_message token ?attachments channel text =
+let chat_post_message ?attachments ?text token channel =
   let string_of_attachments x = Slack_api_j.string_of_attachments x in
+  let opt_text =
+    match text with
+    | None -> []
+    | Some s -> ["text", [s]]
+  in
   Util_http_client.post_form'
     (Uri.of_string "https://slack.com/api/chat.postMessage")
     (("attachments", string_of_attachments, attachments) @^@
      ["token",   [token];
-      "channel", [Slack_api_channel.to_string channel];
-      "text",    [text]])
+      "channel", [Slack_api_channel.to_string channel]
+     ] @ opt_text)
   >>= fun (status, headers, body) ->
   return (is_ok_response body)
 

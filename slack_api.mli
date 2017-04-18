@@ -34,10 +34,10 @@ val im_open :
   Slack_api_t.slack_channel response Lwt.t
 
 val chat_post_message :
+  ?attachments: Slack_api_j.attachments ->
+  ?text: string ->
   string ->
-  ?attachments:Slack_api_j.attachments ->
   Slack_api_channel.t ->
-  string ->
   unit response Lwt.t
 
 val button : text:string -> url:string -> unit -> string
