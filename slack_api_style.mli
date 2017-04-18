@@ -1,4 +1,4 @@
-type t = Default | Primary | Danger | Other of string
+type t = [ `Default | `Primary | `Danger | `Other of string ]
 
 val of_string: string -> t
 val to_string: t -> string
