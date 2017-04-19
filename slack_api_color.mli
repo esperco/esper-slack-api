@@ -1,4 +1,4 @@
-type t = Good | Warning | Danger | Other of string
+type t = [ `Good | `Warning | `Danger | `Other of string ]
 
 val of_string: string -> t
 val to_string: t -> string
