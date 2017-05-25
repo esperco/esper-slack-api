@@ -9,6 +9,7 @@ FILES[] =
   slack_api_scope
   slack_api_style
   slack_api_ts
+  slack_api_markup
   slack_api_embedded_t
   slack_api_embedded_j
   slack_api_embedded_v
