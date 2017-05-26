@@ -98,9 +98,6 @@ let chat_post_message ?attachments ?text token channel =
   >>= fun (status, headers, body) ->
   return (is_ok_response body)
 
-let button ~text ~url () =
-  "<" ^ url ^ "|" ^ text ^ ">"
-
 let reactions_add token channel ts reaction =
   Util_http_client.post_form
     (Uri.of_string "https://slack.com/api/reactions.add")

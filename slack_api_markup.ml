@@ -4,6 +4,8 @@
    See https://api.slack.com/docs/message-formatting
 *)
 
+open Printf
+
 (*
    For now, only `<` `>` `&` are escaped.
 
@@ -33,6 +35,10 @@ let test_encode s =
   assert (encode "~a~" = "~a~");
   assert (encode ":joy:" = ":joy:");
   true
+
+let link ~text ~url () =
+  sprintf "<%s|%s>"
+  (encode url) (encode text)
 
 let tests = [
   "encode", test_encode;

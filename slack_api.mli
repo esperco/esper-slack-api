@@ -40,8 +40,6 @@ val chat_post_message :
   Slack_api_channel.t ->
   unit response Lwt.t
 
-val button : text:string -> url:string -> unit -> string
-
 val reactions_add :
   string ->
   Slack_api_channel.t ->

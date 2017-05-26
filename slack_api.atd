@@ -58,6 +58,12 @@ type channel = {
 
 type attachments = attachment list
 
+type mrkdwn_in = [
+  | Pretext <json name="pretext">
+  | Text <json name="text">
+  | Fields <json name="fields">
+]
+
 type attachment = {
   ?color: slack_color option;
   ~attachment_type: string;
@@ -78,6 +84,8 @@ type attachment = {
 
   ~actions: attachment_action list;
   ?callback_id: string option; (*required for actions*)
+
+  ~mrkdwn_in: mrkdwn_in list;
 } <ocaml field_prefix="attach_">
 
 type attachment_field = {
