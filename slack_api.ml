@@ -96,7 +96,10 @@ let chat_post_message ?attachments ?text token channel =
       "channel", [Slack_api_channel.to_string channel]
      ] @ opt_text)
   >>= fun (status, headers, body) ->
-  return (is_ok_response body)
+  let result =
+    parse_response Slack_api_j.post_message_response_of_string body
+  in
+  return result
 
 let reactions_add token channel ts reaction =
   Util_http_client.post_form

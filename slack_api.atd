@@ -52,6 +52,13 @@ type channel_response = {
   channel: channel;
 }
 
+type post_message_response = {
+  (* omitted field: ok: true *)
+  ts: slack_ts;
+  channel: slack_channel;
+  message: simple_message;
+}
+
 type channel = {
   id: slack_channel;
 } <ocaml field_prefix="slackchannel_">
@@ -124,6 +131,7 @@ type message_action_response = {
 } <ocaml field_prefix="act_">
 
 type simple_message = {
+  ts: slack_ts;
   ?text: string option;
   ~attachments: attachments;
   ?replace_original: bool option;

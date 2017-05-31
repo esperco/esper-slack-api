@@ -38,7 +38,7 @@ val chat_post_message :
   ?text: string ->
   string ->
   Slack_api_channel.t ->
-  unit response Lwt.t
+  Slack_api_t.post_message_response response Lwt.t
 
 val reactions_add :
   string ->
