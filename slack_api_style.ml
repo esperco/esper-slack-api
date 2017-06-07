@@ -1,7 +1,7 @@
 type t = [ `Default | `Primary | `Danger | `Other of string ]
 
 let of_string s =
-  match String.lowercase s with
+  match String.lowercase_ascii s with
   | "default" -> `Default
   | "primary" -> `Primary
   | "danger"  -> `Danger
